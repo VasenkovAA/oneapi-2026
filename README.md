@@ -546,24 +546,27 @@ std::vector<float> JacobiKokkos(
 ## 7_mkl_gemm_oneapi (3072 elements)
 |Group|Name|Result|Rank|
 |-----|----|------|----|
+|3822B1FI1|chistov_alexey|0.4392|1|
 |**REF**|**REF**|**0.4392**|**-**|
 
 ## 8_integral_kokkos (65536 elements)
 |Group|Name|Result|Rank|
 |-----|----|------|----|
+|3822B1FI1|chistov_alexey|0.0009|1|
 |**REF**|**REF**|**0.3629**|**-**|
 
 ## 9_jacobi_kokkos (4096 elements)
 |Group|Name|Result|Rank|
 |-----|----|------|----|
 |**REF**|**REF**|**0.2679**|**-**|
+|3822B1FI1|chistov_alexey|TEST FAILED|-|
 
 # Tasks Done
 ## 3822B1FI1
 |Group|Name|Passed|Score|
 |-----|----|------|-----|
 |3822B1FI1|beskhmelnova_kseniya|5/9|308|
-|3822B1FI1|chistov_alexey|6/9|374|
+|3822B1FI1|chistov_alexey|8/9|502|
 |3822B1FI1|drozhdinov_dmitriy|3/9|171|
 |3822B1FI1|kabalova_valeria|2/9|117|
 |3822B1FI1|rezantseva_anastasia|2/9|114|
