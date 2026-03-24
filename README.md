@@ -587,6 +587,7 @@ std::vector<float> JacobiKokkos(
 |3822B1FI1|rezantseva_anastasia|0.8756|5|
 |3822B1FI3|frolova_elizaveta|0.8798|2|
 |3822B1FI1|beskhmelnova_kseniya|0.8884|1|
+|3822B1FI2|bessonov_egor|0.8908|2|
 |3822B1FI1|solovev_alexey|0.8935|3|
 |3822B1FI2|yasakova_tanya|0.8962|1|
 |3822B1FI3|lopatin_ilya|0.8981|3|
@@ -665,8 +666,8 @@ Passed: 4
 ## 3822B1FI2
 |Group|Name|Passed|Score|
 |-----|----|------|-----|
-|3822B1FI2|bessonov_egor|5/9|319|
-|3822B1FI2|yasakova_tanya|**9/9**|**567**|
+|3822B1FI2|bessonov_egor|6/9|382|
+|3822B1FI2|yasakova_tanya|**9/9**|**566**|
 
 Passed: 1
 
