@@ -506,6 +506,7 @@ std::vector<float> JacobiKokkos(
 |3822B1FI1|mironov_arseniy|0.2517|10|
 |3822B1FI1|ionova_ekaterina|0.2542|9|
 |3822B1FI3|chizhov_maxim|0.3237|7|
+|3822B1FI1|ivanov_mikhail|TEST FAILED|-|
 
 ## 2_integral_oneapi (65536 elements)
 |Group|Name|Result|Rank|
