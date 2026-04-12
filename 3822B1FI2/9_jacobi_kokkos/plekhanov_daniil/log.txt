@@ -1,0 +1,8 @@
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI2/9_jacobi_kokkos/plekhanov_daniil/jacobi_kokkos.cpp:69:9: error: no member named 'swap' in namespace 'Kokkos'; did you mean 'std::swap'?
+   69 |         Kokkos::swap(x_dev, x_new_dev);
+      |         ^~~~~~~~~~~~
+      |         std::swap
+/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/bits/move.h:196:5: note: 'std::swap' declared here
+  196 |     swap(_Tp& __a, _Tp& __b)
+      |     ^
+1 error generated.

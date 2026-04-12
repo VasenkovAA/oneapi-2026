@@ -1,0 +1,17 @@
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI2/4_dev_jacobi_oneapi/plekhanov_daniil/dev_jacobi_oneapi.cpp:61:49: error: no matching constructor for initialization of 'sycl::atomic_ref<float, sycl::memory_order::relaxed, sycl::memory_scope::device>'
+   61 |                     sycl::memory_scope::device> atomic_max(diff_norm);
+      |                                                 ^          ~~~~~~~~~
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/atomic_ref.hpp:162:12: note: candidate inherited constructor not viable: 1st argument ('const float') would lose const qualifier
+  162 |   explicit atomic_ref_base(T &ref)
+      |            ^               ~~~~~~
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/atomic_ref.hpp:763:48: note: constructor from base class 'atomic_ref_impl<float, 4, sycl::memory_order::relaxed, sycl::memory_scope::device, sycl::access::address_space::generic_space>' inherited here
+  763 |                                 AddressSpace>::atomic_ref_impl;
+      |                                                ^
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/atomic_ref.hpp:759:7: note: candidate constructor (the implicit copy constructor) not viable: no known conversion from 'const float' to 'const atomic_ref<float, sycl::memory_order::relaxed, sycl::memory_scope::device>' for 1st argument
+  759 | class atomic_ref : public detail::atomic_ref_impl<T, sizeof(T), DefaultOrder,
+      |       ^~~~~~~~~~
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/atomic_ref.hpp:759:7: note: candidate constructor (the implicit move constructor) not viable: no known conversion from 'const float' to 'atomic_ref<float, sycl::memory_order::relaxed, sycl::memory_scope::device>' for 1st argument
+  759 | class atomic_ref : public detail::atomic_ref_impl<T, sizeof(T), DefaultOrder,
+      |       ^~~~~~~~~~
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/atomic_ref.hpp:759:7: note: candidate constructor (the implicit default constructor) not viable: requires 0 arguments, but 1 was provided
+1 error generated.
