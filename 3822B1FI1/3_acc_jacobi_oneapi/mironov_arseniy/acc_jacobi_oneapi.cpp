@@ -11,24 +11,14 @@ std::vector<float> JacobiAccONEAPI(const std::vector<float> &a,
   std::vector<float> prev_res(size, 0.0f);
   std::vector<float> res(size, 0.0f);
 
-  auto stop = [&]() -> bool {
-    float norm = 0.0f;
-    for (int idx = 0; idx < prev_res.size(); ++idx) {
-      float el = std::fabs(res[idx] - prev_res[idx]);
-      if (el > norm) norm = el;
-    }
-    return norm < accuracy;
-  };
-
   sycl::queue gpu_queue(device);
 
+  buftype buf_a(a.data(), a.size());
+  buftype buf_b(b.data(), b.size());
+  buftype buf_prev_res(prev_res.data(), prev_res.size());
+  buftype buf_res(res.data(), res.size());
+
   for (int epoch = 0; epoch < ITERATIONS; ++epoch) {
-
-    buftype buf_a(a.data(), a.size());
-    buftype buf_b(b.data(), b.size());
-    buftype buf_prev_res(prev_res.data(), prev_res.size());
-    buftype buf_res(res.data(), res.size());
-
     gpu_queue
         .submit([&](sycl::handler &cgh) {
           auto in_a = buf_a.get_access<sycl::access::mode::read>(cgh);
@@ -54,11 +44,27 @@ std::vector<float> JacobiAccONEAPI(const std::vector<float> &a,
         })
         .wait();
 
-    std::swap(prev_res, res);
-    if (stop()) {
-      break;
+    auto buf_prev_res_host = buf_prev_res.get_host_access(sycl::read_write);
+    auto buf_res_host = buf_res.get_host_access(sycl::read_only);
+
+    float norm = 0.0f;
+    for (int idx = 0; idx < size; ++idx) {
+      float el = std::fabs(buf_res_host[idx] - buf_prev_res_host[idx]);
+      if (el > norm)
+        norm = el;
+      buf_prev_res_host[idx] = buf_res_host[idx];
     }
 
+    if (norm < accuracy) {
+      break;
+    }
   }
-  return prev_res;
+
+  auto host_final = buf_prev_res.get_host_access(sycl::read_only);
+  std::vector<float> final(size);
+  for (int i = 0; i < size; ++i) {
+    final[i] = host_final[i];
+  }
+
+  return final;
 }

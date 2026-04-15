@@ -2,7 +2,7 @@
 #include <cmath>
 
 std::vector<float> GemmBlockONEAPI(const std::vector<float> &a,
-                                   const std::vector<float> &b, int size,
+                                   const std::vector<float> &b, size_t size,
                                    sycl::device device) {
 
   sycl::queue gpu_queue(device);

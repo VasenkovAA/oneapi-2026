@@ -12,7 +12,7 @@ std::vector<float> GemmMklONEAPI(const std::vector<float> &a,
   sycl::buffer<float> in_b(b.data(), sycl::range<1>(b.size()));
   sycl::buffer<float> in_c(res.data(), sycl::range<1>(res.size()));
 
-  oneapi::mkl::blas::gemm(gpu_queue, oneapi::mkl::layout::row_major,
+   oneapi::mkl::blas::row_major::gemm(gpu_queue,
                           oneapi::mkl::transpose::nontrans,
                           oneapi::mkl::transpose::nontrans, size, size, size,
                           1.0f, in_a, size, in_b, size, 0.0f, in_c, size);
