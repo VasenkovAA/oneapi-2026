@@ -562,6 +562,7 @@ std::vector<float> JacobiKokkos(
 |3822B1FI3|ekaterina_kozlova|0.2627|7|
 |3822B1FI2|khokhlov_andrey|0.2654|3|
 |3822B1FI3|kudryashova_irina|0.2669|8|
+|3822B1FI1|ivanov_mikhail|0.2678|12|
 |3822B1FI1|shulpin_ilya|0.2705|7|
 |**REF**|**REF**|**0.2749**|**-**|
 |3822B1FI2|vyunov_danila|0.2795|6|
@@ -587,7 +588,6 @@ std::vector<float> JacobiKokkos(
 |3822B1FI2|sdobnov_vladimir|0.4597|4|
 |3822B1FI1|drozhdinov_dmitriy|0.5052|2|
 |3822B1FI1|suvorov_dmitrii|BUILD FAILED|-|
-|3822B1FI1|ivanov_mikhail|TEST FAILED|-|
 |3822B1FI1|vershinina_olga|TEST FAILED|-|
 |3822B1FI2|guseynov_emil|TOO SLOW|-|
 |3822B1FI2|vyunova_ekaterina|BUILD FAILED|-|
@@ -803,23 +803,23 @@ std::vector<float> JacobiKokkos(
 ## 3822B1FI1
 |Group|Name|Passed|Score|
 |-----|----|------|-----|
-|3822B1FI1|beskhmelnova_kseniya|**9/9**|**509**|
-|3822B1FI1|chistov_alexey|**9/9**|**516**|
-|3822B1FI1|drozhdinov_dmitriy|**9/9**|**466**|
+|3822B1FI1|beskhmelnova_kseniya|**9/9**|**508**|
+|3822B1FI1|chistov_alexey|**9/9**|**515**|
+|3822B1FI1|drozhdinov_dmitriy|**9/9**|**465**|
 |3822B1FI1|grudzin_konstantin|5/9|243|
-|3822B1FI1|ionova_ekaterina|**9/9**|**454**|
-|3822B1FI1|ivanov_mikhail|8/9|382|
+|3822B1FI1|ionova_ekaterina|**9/9**|**453**|
+|3822B1FI1|ivanov_mikhail|**9/9**|**433**|
 |3822B1FI1|kabalova_valeria|2/9|109|
-|3822B1FI1|kurakin_matvey|**9/9**|**436**|
+|3822B1FI1|kurakin_matvey|**9/9**|**435**|
 |3822B1FI1|mironov_arseniy|**9/9**|**450**|
-|3822B1FI1|rezantseva_anastasia|**9/9**|**502**|
-|3822B1FI1|shulpin_ilya|**9/9**|**468**|
-|3822B1FI1|shurigin_sergey|**9/9**|**473**|
-|3822B1FI1|solovev_alexey|**9/9**|**489**|
+|3822B1FI1|rezantseva_anastasia|**9/9**|**501**|
+|3822B1FI1|shulpin_ilya|**9/9**|**467**|
+|3822B1FI1|shurigin_sergey|**9/9**|**472**|
+|3822B1FI1|solovev_alexey|**9/9**|**488**|
 |3822B1FI1|suvorov_dmitrii|6/9|305|
 |3822B1FI1|vershinina_olga|4/9|188|
 
-Passed: 10
+Passed: 11
 
 ## 3822B1FI2
 |Group|Name|Passed|Score|
@@ -852,7 +852,7 @@ Passed: 4
 
 Passed: 7
 
-**Total Passed: 21**
+**Total Passed: 22**
 
 ---
 *Maximum Score: 576 (64 per task)*
