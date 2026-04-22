@@ -1,0 +1,17 @@
+Kokkos::OpenMP::initialize WARNING: OMP_PROC_BIND environment variable not set
+  In general, for best performance with OpenMP 4.0 or better set OMP_PROC_BIND=spread and OMP_PLACES=threads
+  For best performance with OpenMP 3.1 set OMP_PROC_BIND=true
+  For unit testing set OMP_PROC_BIND=false
+
+Error: Kokkos::initialize() has already been called. Kokkos can be initialized at most once.
+
+Backtrace:
+[0x440be0] 
+[0x408f82] 
+[0x414366] 
+[0x42059c] 
+[0x40b3b5] 
+[0x416cdb] 
+[0x7f97f0c05d90] 
+[0x7f97f0c05e40] __libc_start_main
+[0x40b265] 
