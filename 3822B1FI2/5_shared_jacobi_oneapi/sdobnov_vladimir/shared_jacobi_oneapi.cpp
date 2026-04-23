@@ -16,7 +16,7 @@ std::vector<float> JacobiSharedONEAPI(
     float* b_mem = sycl::malloc_shared<float>(n, q);
     float* x = sycl::malloc_shared<float>(n, q);
     float* x_new = sycl::malloc_shared<float>(n, q);
-    float* diff = sycl::malloc_shared<float>(1, q);
+    float* diff_arr = sycl::malloc_shared<float>(n, q);
 
     for (int i = 0; i < n * n; i++) a_mem[i] = a[i];
     for (int i = 0; i < n; i++) b_mem[i] = b[i];
@@ -29,41 +29,35 @@ std::vector<float> JacobiSharedONEAPI(
     std::vector<float> result(n);
 
     for (int iter = 0; iter < ITERATIONS; iter++) {
-        *diff = 0.0f;
 
-        q.submit([&](sycl::handler& h) {
-            auto reduction = sycl::reduction(
-                diff, h, 0.0f, std::plus<>()
-            );
+        q.parallel_for(sycl::range<1>(n), [=](sycl::id<1> id) {
+            int i = id[0];
 
-            h.parallel_for(
-                sycl::range<1>(n),
-                reduction,
-                [=](sycl::id<1> id, auto& sum_diff) {
-                    int i = id[0];
+            float s = 0.0f;
 
-                    float s = 0.0f;
-
-                    for (int j = 0; j < n; j++) {
-                        if (j != i) {
-                            s += a_mem[i * n + j] * x[j];
-                        }
-                    }
-
-                    float new_val =
-                        (b_mem[i] - s) / a_mem[i * n + i];
-
-                    x_new[i] = new_val;
-
-                    float d = new_val - x[i];
-                    sum_diff += d * d;
+            for (int j = 0; j < n; j++) {
+                if (j != i) {
+                    s += a_mem[i * n + j] * x[j];
                 }
-            );
+            }
+
+            float new_val =
+                (b_mem[i] - s) / a_mem[i * n + i];
+
+            x_new[i] = new_val;
+
+            float d = new_val - x[i];
+            diff_arr[i] = d * d;
             });
 
         q.wait();
 
-        if (std::sqrt(*diff) < accuracy) {
+        float diff = 0.0f;
+        for (int i = 0; i < n; i++) {
+            diff += diff_arr[i];
+        }
+
+        if (std::sqrt(diff) < accuracy) {
             break;
         }
 
@@ -78,7 +72,7 @@ std::vector<float> JacobiSharedONEAPI(
     sycl::free(b_mem, q);
     sycl::free(x, q);
     sycl::free(x_new, q);
-    sycl::free(diff, q);
+    sycl::free(diff_arr, q);
 
     return result;
 }
