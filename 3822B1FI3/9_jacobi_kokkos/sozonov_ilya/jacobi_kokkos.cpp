@@ -21,7 +21,6 @@ std::vector<float> JacobiKokkos(const std::vector<float>& a,
 
   Kokkos::deep_copy(A, hA);
   Kokkos::deep_copy(B, hB);
-
   Kokkos::deep_copy(x_old, 0.0f);
 
   Kokkos::parallel_for(
@@ -37,22 +36,23 @@ std::vector<float> JacobiKokkos(const std::vector<float>& a,
           const float* row = &A(i * n);
           const float xi = x_old(i);
 
-          float sigma = 0.0f;
+          double sigma = 0.0;
 
           int j = 0;
           for (; j + 4 <= n; j += 4) {
-            sigma += row[j] * x_old(j);
-            sigma += row[j + 1] * x_old(j + 1);
-            sigma += row[j + 2] * x_old(j + 2);
-            sigma += row[j + 3] * x_old(j + 3);
+            sigma += (double)row[j] * x_old(j);
+            sigma += (double)row[j + 1] * x_old(j + 1);
+            sigma += (double)row[j + 2] * x_old(j + 2);
+            sigma += (double)row[j + 3] * x_old(j + 3);
           }
           for (; j < n; ++j) {
-            sigma += row[j] * x_old(j);
+            sigma += (double)row[j] * x_old(j);
           }
 
-          sigma -= row[i] * xi;
+          sigma -= (double)row[i] * xi;
 
-          const float new_val = (B(i) - sigma) * inv_diag(i);
+          const float new_val =
+              (B(i) - static_cast<float>(sigma)) * inv_diag(i);
 
           const float diff = fabsf(new_val - xi);
 
@@ -64,9 +64,9 @@ std::vector<float> JacobiKokkos(const std::vector<float>& a,
 
     ExecSpace().fence();
 
-    if (error < accuracy) break;
-
     Kokkos::kokkos_swap(x_old, x_new);
+
+    if (error < accuracy) break;
   }
 
   auto hX = Kokkos::create_mirror_view(x_old);
