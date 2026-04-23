@@ -4,7 +4,7 @@
 #include <vector>
 
 std::vector<float> JacobiSharedONEAPI(
-        const std::vector<float> a, const std::vector<float> b,
+        const std::vector<float>& a, const std::vector<float>& b,
         float accuracy, sycl::device device) {
     if (accuracy <= 0.0f) {
         accuracy = 1e-6f;
@@ -52,7 +52,7 @@ std::vector<float> JacobiSharedONEAPI(
 
             q.submit([&](sycl::handler& h) {
                 auto max_red = sycl::reduction(
-                    max_diff_sh, h, 0.0f, sycl::maximum<float>());
+                    max_diff_sh, 0.0f, sycl::maximum<float>());
 
                 h.parallel_for(
                     sycl::range<1>(n),

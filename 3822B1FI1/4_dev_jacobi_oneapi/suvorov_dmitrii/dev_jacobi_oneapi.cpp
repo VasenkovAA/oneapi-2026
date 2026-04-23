@@ -5,7 +5,7 @@
 #include <vector>
 
 std::vector<float> JacobiDevONEAPI(
-        const std::vector<float> a, const std::vector<float> b,
+        const std::vector<float>& a, const std::vector<float>& b,
         float accuracy, sycl::device device) {
     if (accuracy <= 0.0f) {
         accuracy = 1e-6f;
@@ -52,7 +52,7 @@ std::vector<float> JacobiDevONEAPI(
 
             q.submit([&](sycl::handler& h) {
                 auto max_red = sycl::reduction(
-                    max_diff_dev, h, sycl::maximum<float>());
+                    max_diff_dev, 0.0f, sycl::maximum<float>());
 
                 h.parallel_for(
                     sycl::range<1>(n),

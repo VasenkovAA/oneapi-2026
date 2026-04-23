@@ -4,7 +4,7 @@
 #include <vector>
 
 std::vector<float> JacobiAccONEAPI(
-        const std::vector<float> a, const std::vector<float> b,
+        const std::vector<float>& a, const std::vector<float>& b,
         float accuracy, sycl::device device) {
     if (accuracy <= 0.0f) {
         accuracy = 1e-6f;
