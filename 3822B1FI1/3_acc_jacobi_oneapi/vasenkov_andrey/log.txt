@@ -1,0 +1,10 @@
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI1/3_acc_jacobi_oneapi/vasenkov_andrey/acc_jacobi_oneapi.cpp:37:15: error: no matching member function for call to 'fill'
+   37 |             h.fill(diff_buf, 0.0f);
+      |             ~~^~~~
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/handler.hpp:2726:3: note: candidate template ignored: could not match 'accessor' against 'sycl::buffer'
+ 2726 |   fill(accessor<T, Dims, AccessMode, AccessTarget, IsPlaceholder, PropertyListT>
+      |   ^
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/handler.hpp:2772:30: note: candidate function template not viable: requires 3 arguments, but 2 were provided
+ 2772 |   template <typename T> void fill(void *Ptr, const T &Pattern, size_t Count) {
+      |                              ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
