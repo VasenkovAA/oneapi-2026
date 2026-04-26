@@ -34,7 +34,8 @@ std::vector<float> JacobiAccONEAPI(
 
     for (int iter = 0; iter < ITERATIONS; ++iter) {
         queue.submit([&](sycl::handler& h) {
-            h.fill(diff_buf, 0.0f);
+            auto diff_acc = diff_buf.get_access<sycl::access::mode::discard_write>(h);
+            h.fill(diff_acc, 0.0f);
         }).wait();
 
         queue.submit([&](sycl::handler& h) {
