@@ -1,8 +1,1 @@
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI1/3_acc_jacobi_oneapi/vershinina_olga/acc_jacobi_oneapi.cpp:30:53: error: use of undeclared identifier 'h'
-   30 |             auto reduct = sycl::reduction(diff_buf, h, sycl::plus<float>());
-      |                                                     ^
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI1/3_acc_jacobi_oneapi/vershinina_olga/acc_jacobi_oneapi.cpp:35:36: error: expected ';' at end of declaration
-   35 |                 size_t size = i * n
-      |                                    ^
-      |                                    ;
-2 errors generated.
+Incorrect results, test input_128.bin, difference 1.0

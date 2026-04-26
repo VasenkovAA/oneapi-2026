@@ -1,2 +1,0 @@
-terminate called after throwing an instance of 'sycl::_V1::exception'
-  what():  Native API failed. Native API returns: 45 (UR_RESULT_ERROR_INVALID_ARGUMENT)
