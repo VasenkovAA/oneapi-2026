@@ -16,19 +16,24 @@ std::vector<float> JacobiKokkos(
     View x("x", n);
     View x_new("x_new", n);
 
-    // Копирование данных
+    auto a_host = Kokkos::create_mirror_view(a_view);
+    auto b_host = Kokkos::create_mirror_view(b_view);
+
     for (int i = 0; i < n * n; i++) {
-        a_view(i) = a[i];
+        a_host(i) = a[i];
     }
     for (int i = 0; i < n; i++) {
-        b_view(i) = b[i];
-        x(i) = 0.0f;
-        x_new(i) = 0.0f;
+        b_host(i) = b[i];
     }
+
+    Kokkos::deep_copy(a_view, a_host);
+    Kokkos::deep_copy(b_view, b_host);
+
+    Kokkos::deep_copy(x, 0.0f);
+    Kokkos::deep_copy(x_new, 0.0f);
 
     for (int iter = 0; iter < ITERATIONS; iter++) {
 
-        // 1. Вычисление x_new
         Kokkos::parallel_for(
             "JacobiCompute",
             Kokkos::RangePolicy<>(0, n),
@@ -45,7 +50,6 @@ std::vector<float> JacobiKokkos(
         }
         );
 
-        // 2. Вычисление нормы
         float diff = 0.0f;
 
         Kokkos::parallel_reduce(
@@ -62,7 +66,6 @@ std::vector<float> JacobiKokkos(
             break;
         }
 
-        // 3. swap
         Kokkos::parallel_for(
             "JacobiSwap",
             Kokkos::RangePolicy<>(0, n),
@@ -72,10 +75,12 @@ std::vector<float> JacobiKokkos(
         );
     }
 
-    std::vector<float> result(n);
+    auto x_host = Kokkos::create_mirror_view(x);
+    Kokkos::deep_copy(x_host, x);
 
+    std::vector<float> result(n);
     for (int i = 0; i < n; i++) {
-        result[i] = x(i);
+        result[i] = x_host(i);
     }
 
     return result;
