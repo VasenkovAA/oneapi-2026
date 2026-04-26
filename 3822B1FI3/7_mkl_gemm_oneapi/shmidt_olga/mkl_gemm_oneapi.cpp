@@ -5,36 +5,31 @@ std::vector<float> GemmMklONEAPI(
     const std::vector<float>& a, const std::vector<float>& b,
     size_t size, sycl::device device)
 {
-    std::vector<float> c(size * size);
+    sycl::queue q(device);
 
-    sycl::queue queue(device);
+    std::vector<float> c(size * size, 0.0f);
 
-    float* d_a = sycl::malloc_device<float>(size * size, queue);
-    float* d_b = sycl::malloc_device<float>(size * size, queue);
-    float* d_c = sycl::malloc_device<float>(size * size, queue);
+    {
+        sycl::buffer<float> a_buffer(a.data(), sycl::range<1>(a.size()));
+        sycl::buffer<float> b_buffer(b.data(), sycl::range<1>(b.size()));
+        sycl::buffer<float> c_buffer(c.data(), sycl::range<1>(c.size()));
 
-    queue.memcpy(d_a, a.data(), size * size * sizeof(float));
-    queue.memcpy(d_b, b.data(), size * size * sizeof(float));
-    queue.wait();
+        float alpha = 1.0f;
+        float beta = 0.0f;
 
-    oneapi::mkl::blas::column_major::gemm(
-        queue,
-        oneapi::mkl::transpose::trans,
-        oneapi::mkl::transpose::trans,
-        size, size, size,
-        1.0f,
-        d_b, size,
-        d_a, size,
-        0.0f,
-        d_c, size);
+        oneapi::mkl::blas::row_major::gemm(
+            q,
+            oneapi::mkl::transpose::nontrans,
+            oneapi::mkl::transpose::nontrans,
+            size, size, size,
+            alpha,
+            a_buffer, size,
+            b_buffer, size,
+            beta,
+            c_buffer, size);
+    }
 
-    queue.wait();
-    queue.memcpy(c.data(), d_c, size * size * sizeof(float));
-    queue.wait();
-
-    sycl::free(d_a, queue);
-    sycl::free(d_b, queue);
-    sycl::free(d_c, queue);
+    q.wait();
 
     return c;
 }
