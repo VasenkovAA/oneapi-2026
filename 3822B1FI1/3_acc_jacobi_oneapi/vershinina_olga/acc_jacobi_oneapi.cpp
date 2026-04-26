@@ -27,12 +27,12 @@ std::vector<float> JacobiAccONEAPI(
             auto x_c_acc = x_curr_buf.get_access<sycl::access::mode::read>(cgh);
             auto x_n_acc = x_next_buf.get_access<sycl::access::mode::write>(cgh);
 
-            auto reduct = sycl::reduction(diff_buf, h, sycl::plus<float>());
+            auto reduct = sycl::reduction(diff_buf, cgh, sycl::plus<float>());
 
             cgh.parallel_for(sycl::range<1>(n), [=](sycl::item<1> item) {
                 size_t i = item[0];
                 float sum = 0.0f;
-                size_t size = i * n
+                size_t size = i * n;
                 for (size_t j = 0; j < n; ++j) {
                     if (j != i) {
                         sum += a_acc[i * n + j] * x_c_acc[j];

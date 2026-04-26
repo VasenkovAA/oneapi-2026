@@ -1,19 +1,19 @@
 #include "jacobi_kokkos.h"
 #include <Kokkos_Core.hpp>
+#include <vector>
 
 std::vector<float> JacobiKokkos(
     const std::vector<float>& a,
     const std::vector<float>& b,
     float accuracy) {
 
-    Kokkos::initialize();
-
     const size_t dim = b.size();
 
-    Kokkos::View<float**, Kokkos::LayoutRight, Kokkos::DefaultExecutionSpace::memory_space> mat("matrix", dim, dim);
-    Kokkos::View<float*, Kokkos::DefaultExecutionSpace::memory_space> rhs("rhs", dim);
-    Kokkos::View<float*, Kokkos::DefaultExecutionSpace::memory_space> current("current", dim);
-    Kokkos::View<float*, Kokkos::DefaultExecutionSpace::memory_space> next("next", dim);
+    using MemSpace = Kokkos::DefaultExecutionSpace::memory_space;
+    Kokkos::View<float**, Kokkos::LayoutRight, MemSpace> mat("matrix", dim, dim);
+    Kokkos::View<float*, MemSpace> rhs("rhs", dim);
+    Kokkos::View<float*, MemSpace> current("current", dim);
+    Kokkos::View<float*, MemSpace> next("next", dim);
 
     auto mat_h = Kokkos::create_mirror_view(mat);
     auto rhs_h = Kokkos::create_mirror_view(rhs);
@@ -32,8 +32,8 @@ std::vector<float> JacobiKokkos(
     float max_diff = 0.0f;
 
     for (int iteration = 0; iteration < ITERATIONS; ++iteration) {
-
-        Kokkos::parallel_reduce("Step", dim,
+        Kokkos::parallel_reduce(
+            "JacobiStep", dim,
             KOKKOS_LAMBDA(const int row, float& local_max) {
             float accum = 0.0f;
             for (int col = 0; col < (int)dim; ++col) {
@@ -51,8 +51,6 @@ std::vector<float> JacobiKokkos(
             Kokkos::Max<float>(max_diff)
             );
 
-        Kokkos::fence();
-
         if (max_diff < accuracy) break;
 
         std::swap(current, next);
@@ -64,6 +62,5 @@ std::vector<float> JacobiKokkos(
         solution[i] = final_host(i);
     }
 
-    Kokkos::finalize();
     return solution;
 }
